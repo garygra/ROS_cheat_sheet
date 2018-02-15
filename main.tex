@@ -1,0 +1,295 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape]{geometry}
+\usepackage{hyperref}
+\usepackage[explicit]{titlesec}
+
+
+\ifthenelse
+{
+    \lengthtest 
+    {
+        \paperwidth = 11in
+    }
+}
+	{ \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
+	{\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
+		{\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+		{\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+	}
+
+% Turn off header and footer
+\pagestyle{empty}
+ 
+
+% Redefine section commands to use less space
+\makeatletter
+
+% \titleformat{\section}{\large\bfseries}{\thesection}{1em}{\hrule}
+\renewcommand\section{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}
+                      }%
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\smallsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\tiny\bfseries}}
+\makeatother
+
+% Define BibTeX command
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+% Don't print section numbers
+\setcounter{secnumdepth}{0}
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+
+% -----------------------------------------------------------------------
+
+\begin{document}
+
+\raggedright
+\footnotesize
+\begin{multicols}{3}
+
+
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+\begin{center}
+     \Large{\textbf{ROS Cheat Sheet}} \\
+\end{center}
+
+\section{USAGE of the Cheat Sheet}
+\begin{tabular}{@{}ll@{}}
+\verb!command! & Explanation of command, ``$ \vdash $'' marks options. \\
+$\vdash $ option\_1 & Use as written  \\
+$\vdash $ $\vdash $ \textit{options\_2} & Options for \textit{option\_1}  \\
+$\vdash $ [\textit{other}]$^+$ & Use one or more \textit{other} options \\
+
+% \verb!! & \\
+% \verb!! & \\
+% $\vdash $  &  \\
+% $\vdash $  &  \\
+% $\vdash $  &  \\
+\end{tabular}
+
+\section{File System}
+\begin{tabular}{@{}ll@{}}
+\verb!catkin_make! & Compile a project. \\
+$\vdash $ \verb!clean! & Remove build, devel \& install spaces   \\
+$\vdash $ \verb!--pkg! [\textit{pkg}]$^+$    & Compile only \textit{PKG \dots}   \\
+\verb!catkin_create_pkg ! & Creates a new catkin package \\
+$\vdash $ \textit{pkg\_name} & Init package of name \textit{pkg\_name}  \\
+$\vdash $ $\vdash $ \textit{deps} & Init pkg with specified dependencies  \\
+\verb!source! & Executes commands from a file \\
+$\vdash $ devel/setup.bash & \textit{Tells } the terminal about the compiled  \\
+                           & workspace. Run it in each terminal. \\
+
+\end{tabular}
+
+\subsection{Create a New Project}
+\verb!mkdir -p !\textit{project\_name}\verb!/src! \\
+\verb!catkin_make! 
+
+
+
+
+
+\section{Common Tools}
+\begin{tabular}{@{}ll@{}}
+\verb!roscore! & Starts a Master, s Parameter Server \\
+\textbar       & and a rosout logging node. A Master \\
+\textbar       & must be always up. \\
+\end{tabular}
+
+\begin{tabular}{@{}ll@{}}
+\verb!rosmsg!/\verb!rossrv! & Get info of ROS messages/services   \\
+$\vdash $ show & Show message/services description  \\
+$\vdash $ list & List all messages/services  \\
+$\vdash $ package & List messages in a package  \\
+\end{tabular}
+
+\begin{tabular}{@{}ll@{}}
+\verb!rosrun ! & Used to execute ROS nodes \\
+$\vdash $ \textit{PKG} \textit{EXEC} & Execute \textit{EXEC} of package \textit{PKG} \\
+$\vdash $ $\vdash $ [\textit{ARGS}]$^+$ & Execute with \textit{ARGS}  \\
+\end{tabular}
+
+\begin{tabular}{@{}ll@{}}
+\verb!rosnode! & Prints info of ROS nodes \\
+$\vdash $ ping \textit{node} & Test connectivity of \textit{node}  \\
+$\vdash $ list & Prints all ROS nodes available \\
+$\vdash $ info \textit{node} & Prints information of \textit{node} \\
+$\vdash $ machine \textit{node} & Prints the machine \textit{node} is running \\
+$\vdash $ kill \textit{node} & Kills the running \textit{node}  \\
+\end{tabular}
+
+\begin{tabular}{@{}ll@{}}
+\verb!roslaunch! & Easily launch multiple nodes. If there is\\
+\textbar  &  no Master up, it also starts one. \\
+$\vdash $ \textit{pkg} \textit{file} & Launches \textit{file} from \textit{pkg} \\
+$\vdash $ $\vdash $ \textit{arg}:=\textit{val}  & Use \textit{arg} with value \textit{val} \\
+\end{tabular}
+
+\begin{tabular}{@{}ll@{}}
+\verb!rostopic! & Prints info of ROS topics \\
+$\vdash $ echo /\textit{topic}& Prints message from /\textit{topic} to screen \\
+$\vdash $ $\vdash $ -n \textit{num} & Prints \textit{num} messages \\
+$\vdash $ hz & display publishing rate of topic   \\
+$\vdash $ info /\textit{topic} & Prints info of /\textit{topic} \\
+$\vdash $ list & Prints all ROS topics available \\
+$\vdash $ pub /\textit{X} \textit{Y} \textit{m} & Publishes \textit{m} to /\textit{X} of type \textit{Y}  \\
+$\vdash $ $\vdash $ \verb!'{!\textit{field}\verb!}'!  & Create message in-line  \\
+$\vdash $ type /\textit{topic} & Prints the message type of /\textit{topic}  \\
+\end{tabular}
+
+\begin{tabular}{@{}ll@{}}
+\verb!rosservice! & Prints info of ROS services \\
+$\vdash $ args /\textit{srv} & Print service arguments \\
+$\vdash $ call /\textit{srv} [\textit{args}]$^*$ & call /\textit{srv} with \textit{args} \\
+$\vdash $ info /\textit{srv} & Print info of service /\textit{srv}  \\
+$\vdash $ list & Print all ROS services available \\
+$\vdash $ type /\textit{srv} & Prints the type of \textit{srv}  \\
+\end{tabular}
+
+\begin{tabular}{@{}ll@{}}
+\verb!rosparam! & Change params of the Param Server \\
+$\vdash $ set \textit{par} \textit{v} & Set \textit{par} with value \textit{v} \\
+$\vdash $ get \textit{par} & Get the value of \textit{par} \\
+$\vdash $ delete \textit{par} & Delete \textit{par} \\
+$\vdash $ list & Print all available parameters \\
+\end{tabular}
+
+\section{ROS Variables}
+Linux environment variables specific of ROS, set for each terminal. \\
+\begin{tabular}{@{}ll@{}}
+\verb!ROS_ROOT! & Path to where ROS is installed \\
+\verb!ROS_MASTER_URI! & Tells nodes where to locate the  \\
+\textbar & Master, by default: http://localhost:11311/ \\
+\verb!ROS_HOSTNAME! & Specifies the host name of the nodes. \\
+\textbar & It takes precedence over \verb!ROS_IP! \\
+\verb!ROS_IP! & Specifies the IP of the nodes \\
+\verb!ROS_DISTRO! & Specifies the current ROS distribution\\
+
+\end{tabular}
+
+
+\subsection{Linux Commands for Env. Vars.}
+\begin{tabular}{@{}ll@{}}
+\verb!export! \textit{var}=\textit{val} & Exports (\textit{sets}) \textit{var} to \textit{val} \\
+\verb!echo! \$\textit{var} & Prints the value of \textit{var}  \\
+\end{tabular}
+
+\subsection{Connect Multiple Machines}
+Define where the Master is going to run and get the ip (\textit{master\_ip}). In each terminal of all computers: \\
+\verb!export ROS_HOSTNAME=computer_hostname!
+\verb!export ROS_MASTER_URI=http://master_ip:11311/!
+
+
+\section{Useful Packages}
+\begin{tabular}{@{}ll@{}}
+\verb!rosbag! & Tool for using ROSBags \\
+$\vdash $ info \textit{bag} & Prints the metadata of a rosbag  \\
+$\vdash $ record [/\textit{topic}]$^*$ & Records topic data to a bag file \\
+$\vdash $ $\vdash $ -a & Record all topics  \\
+$\vdash $ $\vdash $ -O \textit{name} & Save bag file as \textit{name}.bag \\
+$\vdash $ $\vdash $ --node=\textit{N} & Save all topics from node \textit{N}\\
+$\vdash $ check \textit{bag} & Determine if a bag is playable \\
+$\vdash $ filter \textit{in} \textit{out} \textit{exp} & Creates \textit{out} by filtering \textit{in} using \textit{exp} \\
+$\vdash $ fix \textit{bag} & Attempts to fix a corrupted bag \\
+$\vdash $ play \textit{bag} & Plays \textit{bag}  \\
+
+\verb!rqt! & Launch the main widget.\\
+\verb!rqt_bag! & GUI for handling rosbags \\
+\verb!rqt_graph! & Vizualize nodes, topics \& services\\
+\verb!rqt_image_view! & Display images from topics \\
+\verb!rqt_plot! & Plot data from topics \\
+
+\verb!rviz! & 3D visualization tool for ROS\\
+
+\verb!Gazebo! & Robot simulator\\
+
+\verb!rosserial_python! & Connect serial devices, rosrun required. \\
+$\vdash $ serial\_node \textit{p} & Connect a device in port \textit{p} with ROS. \\
+
+
+\end{tabular}
+
+
+\section{CMakeLists}
+\begin{tabular}{@{}ll@{}}
+\verb!find_package( catkin! & Find catkin macros and libraries \\
+$\vdash $ REQUIRED COMPONENTS & find other catkin packages \\
+$\vdash $ $\vdash $ roscpp & ROS library for c++  \\
+$\vdash $ $\vdash $ rospy & ROS library for python  \\
+$\vdash $ $\vdash $ std\_msgs & ROS standard messages  \\
+$\vdash $ $\vdash $ geometry\_msgs & ROS geometry messages  \\
+$\vdash $ ) &  \\
+\end{tabular}
+
+\begin{tabular}{@{}ll@{}}
+\verb!include_directories(! & Other locations of headers \\
+$\vdash $ include & \\
+$\vdash $ \$\{catkin\_INCLUDE\_DIRS\} & catkin directories \\
+$\vdash $ ) & \\
+\end{tabular}
+
+\begin{tabular}{@{}ll@{}}
+\verb!add_executable(! & Create an executable \\
+$\vdash $ \textit{exec\_name} & of name \textit{exec\_name}  \\
+$\vdash $ \textit{file.cpp} & from the source \textit{file.cpp}  \\
+$\vdash $ ) &  \\
+\end{tabular}
+
+\begin{tabular}{@{}ll@{}}
+\verb!target_link_libraries(! & Tell cmake to link the executable \\
+$\vdash $ \textit{exec\_name} & \textit{exec\_name} against the libraries \\
+$\vdash $ [\$\{ \textit{lib\_name} \}]$^+$ &  \textit{lib\_name} \\
+$\vdash $ ) &  \\
+\end{tabular}
+
+
+% \verb!! & \\
+% \verb!! & \\
+% \verb!! & \\
+% \verb!! & \\
+% \verb!! & \\
+% $\vdash $  &  \\
+% $\vdash $  &  \\
+% $\vdash $  &  \\
+% $\vdash $  &  \\
+% $\vdash $  &  \\
+% $\vdash $  &  \\
+% $\vdash $  &  \\
+% $\vdash $  &  \\
+% $\vdash $  &  \\
+% $\vdash $  &  \\
+% $\vdash $  &  \\
+
+
+
+\rule{0.3\linewidth}{0.25pt}
+\scriptsize
+
+Created by Gary, 2018.
+
+\href{http://github.com/EagleKnights/}{http://github.com/EagleKnights/}
+
+
+\end{multicols}
+\end{document}
